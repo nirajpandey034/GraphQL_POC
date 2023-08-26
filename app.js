@@ -15,5 +15,5 @@ app.use(
 );
 
 app.listen(process.env.APP_PORT, () => {
-  console.log("Server started at 3000");
+  console.log(`Server started at ${process.env.APP_PORT}`);
 });
