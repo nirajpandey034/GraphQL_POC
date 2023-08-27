@@ -1,4 +1,4 @@
-const { findBookById, getAllBooks } = require("./DB");
+const { findBookById, getAllBooks, addBook } = require("./DB");
 const { getAllAuthors } = require("../Author/DB");
 const BookResolver = {
   Query: {
@@ -9,6 +9,17 @@ const BookResolver = {
     book: async (parent, args) => {
       const response = await findBookById(args.id);
       return response;
+    },
+  },
+  Mutation: {
+    addBook: async (parent, args) => {
+      const response = await addBook({
+        id: args.id,
+        name: args.name,
+        genre: args.genre,
+        authorid: args.authorid,
+      });
+      return "Success";
     },
   },
   Book: {

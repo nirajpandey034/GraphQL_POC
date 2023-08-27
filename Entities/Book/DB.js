@@ -21,4 +21,18 @@ const getAllBooks = () => {
   });
 };
 
-module.exports = { findBookById, getAllBooks };
+const addBook = ({ id, name, genre, authorid }) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `insert into books values(${id},'${name}', '${genre}', '${authorid}')`,
+      (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(data);
+      }
+    );
+  });
+};
+
+module.exports = { findBookById, getAllBooks, addBook };

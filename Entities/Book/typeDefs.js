@@ -10,6 +10,9 @@ const BookTypeDef = `
     books: [Book],
     book(id:ID): Book
   }
+  type Mutation {
+    addBook(id: String!, name: String!, genre: String!, authorid: String!): String
+  }
 `;
 
 module.exports = BookTypeDef;
