@@ -1,15 +1,28 @@
 const express = require("express");
 require("dotenv").config();
 const graphqlHTTP = require("express-graphql").graphqlHTTP;
+const { makeExecutableSchema } = require("graphql-tools");
 const app = express();
-const pool = require("./config/database");
+const BookTypeDef = require("./Entities/Book/typeDefs");
+const BookResolver = require("./Entities/Book/resolver");
+const AuthorTypeDef = require("./Entities/Author/typeDefs");
+const AuthorResolver = require("./Entities/Author/resolver");
 
-const schema = require("./schema/schema");
-
+const resolvers = Object.assign({}, BookResolver, AuthorResolver, {
+  Query: { ...BookResolver.Query, ...AuthorResolver.Query },
+  // Mutation: Object.assign(
+  //   {},
+  //   BookResolver.Mutation,
+  //   productResolver.Mutation
+  // ),
+});
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema,
+    schema: makeExecutableSchema({
+      typeDefs: [BookTypeDef, AuthorTypeDef],
+      resolvers,
+    }),
     graphiql: true,
   })
 );
